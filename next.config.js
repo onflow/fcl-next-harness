@@ -8,7 +8,10 @@ const nextConfig = {
     FCL_CRYPTO_CONTRACT: process.env.FCL_CRYPTO_CONTRACT,
   },
   images: {
-    domains: ["avatars.githubusercontent.com"],
+    remotePatterns: [{
+      protocol: "https",
+      hostname: "**",
+    }],
   },
 }
 
