@@ -1,5 +1,7 @@
 import * as fcl from "@onflow/fcl"
 
+const WC_PROJECT_ID = process.env.NEXT_PUBLIC_WC_PROJECT_ID || "9b70cfa398b2355a5eb9b1cf99f4a981"
+
 const USE_LOCAL = false
 const resolver = async () => ({
   appIdentifier: "Awesome App (v0.0)",
@@ -22,6 +24,7 @@ fcl
   .put("app.detail.icon", "https://placekitten.com/g/200/200")
   .put("service.OpenID.scopes", "email")
   .put("fcl.accountProof.resolver", resolver)
+  .put("walletconnect.projectId", WC_PROJECT_ID)
 // storage override
 //.put("fcl.storage", LOCAL_STORAGE)
 

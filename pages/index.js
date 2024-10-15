@@ -4,18 +4,9 @@ import "../flow/config"
 import { COMMANDS } from "../cmds"
 import useCurrentUser from "../hooks/use-current-user"
 import useConfig from "../hooks/use-config"
-import { init } from "@onflow/fcl-wc"
 import Loading from "./loading"
 import Image from "next/image"
 import "../flow/config"
-
-const WC_PROJECT_ID = process.env.NEXT_PUBLIC_WC_PROJECT_ID
-const WC_METADATA = {
-  name: "FCL Harness",
-  description: "FCL Harness dApp for Development and Testing",
-  url: "https://flow.com/",
-  icons: ["https://avatars.githubusercontent.com/u/62387156?s=280&v=4"],
-}
 
 export default function Home() {
   const currentUser = useCurrentUser()
@@ -23,7 +14,6 @@ export default function Home() {
   const [services, setServices] = useState([])
   const [isLoading, setIsLoading] = useState(false)
   const discoveryWalletInputRef = useRef(null)
-  const [isPluginAdded, setIsPluginAdded] = useState(false)
 
   const renderCommand = d => {
     return (
@@ -38,31 +28,6 @@ export default function Home() {
     await fn(args)
     setIsLoading(false)
   }
-
-  useEffect(() => {
-    const initAdapter = async () => {
-      const { FclWcServicePlugin } = await init({
-        projectId: WC_PROJECT_ID,
-        metadata: WC_METADATA,
-        includeBaseWC: true,
-        wallets: [],
-        sessionRequestHook: data => {
-          console.log("WC Request data", data)
-        },
-      })
-      fcl.pluginRegistry.add(FclWcServicePlugin)
-    }
-
-    if (
-      !isPluginAdded &&
-      config &&
-      config["flow.network"] !== "local" &&
-      process.env.NEXT_PUBLIC_WC_PROJECT_ID
-    ) {
-      initAdapter()
-      setIsPluginAdded(true)
-    }
-  }, [config])
 
   useEffect(() => {
     const fetchServices = async () =>
